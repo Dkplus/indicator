@@ -1,0 +1,33 @@
+{
+    "name": "dkplus/indicator",
+    "description": "Issue tracking within your application with a custom backend.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oskar Pfeifer-Bley",
+            "email": "pfeifer-bley@ipa-dguv.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dkplus\\Indicator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "spec\\Dkplus\\Indicator\\": "spec/",
+            "feature\\Dkplus\\Indicator\\": "features/bootstrap/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {},
+    "require-dev": {
+        "behat/behat": "^3.1",
+        "phpspec/phpspec": "^3.0",
+        "memio/spec-gen": "^0.6.1"
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
