@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace Dkplus\Indicator\DomainModel;
 
-interface Backlog
+interface FeedbackForum
 {
-    public function get(IssueId $issueId);
+    public function withId(IssueId $issueId): Issue;
     public function add(Issue $issue);
 }

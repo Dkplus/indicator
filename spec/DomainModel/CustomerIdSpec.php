@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace spec\Dkplus\Indicator\DomainModel;
 
-use Dkplus\Indicator\DomainModel\ReporterId;
+use Dkplus\Indicator\DomainModel\CustomerId;
 use PhpSpec\ObjectBehavior;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @mixin ReporterId
+ * @mixin CustomerId
  */
-class ReporterIdSpec extends ObjectBehavior
+class CustomerIdSpec extends ObjectBehavior
 {
     function let()
     {
@@ -18,7 +18,7 @@ class ReporterIdSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ReporterId::class);
+        $this->shouldHaveType(CustomerId::class);
     }
 
     function it_can_be_generated_from_string()
@@ -33,8 +33,8 @@ class ReporterIdSpec extends ObjectBehavior
         $idAsString = Uuid::uuid4()->toString();
         $this->beConstructedThrough('fromString', [$idAsString]);
 
-        $this->equals(ReporterId::fromString($idAsString))->shouldBe(true);
-        $this->equals(ReporterId::generate())->shouldBe(false);
+        $this->equals(CustomerId::fromString($idAsString))->shouldBe(true);
+        $this->equals(CustomerId::generate())->shouldBe(false);
     }
 
     function it_is_comparable_to_reporter_ids_as_string()

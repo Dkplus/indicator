@@ -2,6 +2,6 @@ default:
     suites:
         reporter:
             contexts:
-                - feature\Dkplus\Indicator\ReporterContext
+                - feature\Dkplus\Indicator\CustomerContext
             filters:
-                role: reporter
+                role: customer

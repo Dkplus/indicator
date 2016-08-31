@@ -5,17 +5,18 @@ namespace spec\Dkplus\Indicator\DomainModel;
 use Dkplus\Indicator\DomainModel\Issue;
 use Dkplus\Indicator\DomainModel\IssueId;
 use Dkplus\Indicator\DomainModel\Event\IssueWasReported;
-use Dkplus\Indicator\DomainModel\ReporterId;
+use Dkplus\Indicator\DomainModel\CustomerId;
 use PhpSpec\ObjectBehavior;
 
 /**
  * @mixin Issue
+ * @method void shouldHaveRecorded($event)
  */
 class IssueSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedThrough('reportWith', [IssueId::generate(), ReporterId::generate(), 'Title', 'Text']);
+        $this->beConstructedThrough('reportWith', [IssueId::generate(), CustomerId::generate(), 'Title', 'Text']);
     }
 
     function it_is_reported()
@@ -25,6 +26,6 @@ class IssueSpec extends ObjectBehavior
 
     function it_has_a_reporter()
     {
-        $this->reporterId()->shouldHaveType(ReporterId::class);
+        $this->reporterId()->shouldHaveType(CustomerId::class);
     }
 }

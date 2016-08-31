@@ -3,12 +3,12 @@ declare(strict_types=1);
 namespace Dkplus\Indicator\DomainModel\Event;
 
 use Dkplus\Indicator\DomainModel\IssueId;
-use Dkplus\Indicator\DomainModel\ReporterId;
+use Dkplus\Indicator\DomainModel\CustomerId;
 use Prooph\EventSourcing\AggregateChanged;
 
 class IssueWasReported extends AggregateChanged
 {
-    public static function with(IssueId $id, ReporterId $reporterId, string $title, string $text)
+    public static function with(IssueId $id, CustomerId $reporterId, string $title, string $text)
     {
         return self::occur(
             (string) $id,

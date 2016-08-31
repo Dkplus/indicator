@@ -4,7 +4,7 @@ namespace Dkplus\Indicator\DomainModel;
 
 use Ramsey\Uuid\Uuid;
 
-class ReporterId
+class CustomerId
 {
     /** @var string */
     private $uuid;

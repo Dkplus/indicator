@@ -16,10 +16,10 @@ class Issue extends AggregateRoot
     /** @var string */
     private $text;
 
-    /** @var ReporterId */
+    /** @var CustomerId */
     private $reporterId;
 
-    public static function reportWith(IssueId $id, ReporterId $reporterId, string $title, string $text)
+    public static function reportWith(IssueId $id, CustomerId $reporterId, string $title, string $text)
     {
         $result = new self();
         $result->recordThat(IssueWasReported::with($id, $reporterId, $title, $text));
@@ -36,10 +36,10 @@ class Issue extends AggregateRoot
         $this->id = IssueId::fromString($event->aggregateId());
         $this->title = $event->title();
         $this->text = $event->text();
-        $this->reporterId = ReporterId::fromString($event->reporterId());
+        $this->reporterId = CustomerId::fromString($event->reporterId());
     }
 
-    public function reporterId(): ReporterId
+    public function reporterId(): CustomerId
     {
         return $this->reporterId;
     }
