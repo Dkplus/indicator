@@ -21,11 +21,18 @@
         }
     },
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "prooph/event-sourcing": "^4.0",
+        "mattketmo/uuid-2x-bridge": "*@dev",
+        "ramsey/uuid": "^3.5",
+        "prooph/event-store": "^6.3",
+        "m4tthumphrey/php-gitlab-api": "^7.13"
+    },
     "require-dev": {
         "behat/behat": "^3.1",
-        "phpspec/phpspec": "^3.0",
-        "memio/spec-gen": "^0.6.1"
+        "phpspec/phpspec": "@dev",
+        "ciaranmcnulty/phpspec-typehintedmethods": "^2.0",
+        "bossa/phpspec2-expect": "^2.0"
     },
     "config": {
         "bin-dir": "bin"

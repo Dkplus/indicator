@@ -1,0 +1,7 @@
+default:
+    suites:
+        reporter:
+            contexts:
+                - feature\Dkplus\Indicator\ReporterContext
+            filters:
+                role: reporter

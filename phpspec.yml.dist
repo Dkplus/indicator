@@ -1,0 +1,10 @@
+suites:
+    dkplus_suite:
+        namespace: Dkplus\Indicator
+        psr4_prefix: Dkplus\Indicator
+
+matchers:
+    - Dkplus\Indicator\PhpSpec\Matcher\AggregateChangedRecorderMatcher
+
+extensions:
+    Cjm\PhpSpec\Extension\TypeHintedMethodsExtension: ~
