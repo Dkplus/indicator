@@ -4,6 +4,7 @@ namespace Dkplus\Indicator\Projection\Dbal;
 
 use Dkplus\Indicator\DomainModel\Event\IssueWasReported;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Type;
 
 class IssueProjector
 {
@@ -22,6 +23,9 @@ class IssueProjector
             'reporter_id' => $data->reporterId(),
             'title' => $data->title(),
             'text' => $data->text(),
+            'updated_at' => $data->createdAt()
+        ], [
+            'updated_at' => Type::DATETIME
         ]);
     }
 }

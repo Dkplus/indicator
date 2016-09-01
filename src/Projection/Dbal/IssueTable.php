@@ -15,6 +15,7 @@ class IssueTable
         $table->addColumn('reporter_id', 'string', ['length' => 36]);
         $table->addColumn('title', 'string', ['length' => 255]);
         $table->addColumn('text', 'text', []);
+        $table->addColumn('updated_at', 'datetime', []);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['reporter_id']);
     }
