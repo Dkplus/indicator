@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace Dkplus\Indicator\Projection\Dbal;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\DBAL\Connection;
 
 class IssueFinder
@@ -30,14 +32,14 @@ class IssueFinder
             )
             ->from(IssueTable::TABLE_NAME, 'issue')
             ->join('issue', CustomerTable::TABLE_NAME, 'customer', 'issue.reporter_id = customer.id')
-            ->orderBy('issue.updated_at', 'ASC')
+            ->orderBy('issue.updated_at', 'DESC')
             ->execute();
         return array_map(function (array $row) {
             $result = new IssueProjection();
             $result->id = $row['id'];
             $result->title = $row['title'];
             $result->text = $row['text'];
-            $result->updatedAt = $row['updated_at'];
+            $result->updatedAt = new DateTimeImmutable($row['updated_at'], new DateTimeZone('UTC'));
             $result->reporter = new CustomerProjection();
             $result->reporter->id = $row['reporter_id'];
             $result->reporter->name = $row['reporter_name'];
