@@ -32,7 +32,8 @@
         "behat/behat": "^3.1",
         "phpspec/phpspec": "@dev",
         "ciaranmcnulty/phpspec-typehintedmethods": "^2.0",
-        "bossa/phpspec2-expect": "^2.0"
+        "bossa/phpspec2-expect": "^2.0",
+        "doctrine/dbal": "^2.5"
     },
     "config": {
         "bin-dir": "bin"

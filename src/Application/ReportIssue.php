@@ -5,17 +5,21 @@ namespace Dkplus\Indicator\Application;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
-use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class ReportIssue extends Command implements PayloadConstructable
 {
     use PayloadTrait;
 
-    public static function withTitleAndText(Uuid $customerId, Uuid $issueId, string $title, string $text): self
-    {
+    public static function withTitleAndText(
+        UuidInterface $customerId,
+        UuidInterface $issueId,
+        string $title,
+        string $text
+    ): self {
         return new self([
-            'reporterId' => (string) $customerId,
-            'issueId' => (string) $issueId,
+            'reporterId' => $customerId->toString(),
+            'issueId' => $issueId->toString(),
             'title' => $title,
             'text' => $text,
         ]);
