@@ -4,7 +4,7 @@ suites:
         psr4_prefix: Dkplus\Indicator
 
 matchers:
-    - Dkplus\Indicator\PhpSpec\Matcher\AggregateChangedRecorderMatcher
+    - Dkplus\Indicator\PhpSpec\Matcher\AggregateChangedMatcher
 
 extensions:
     Cjm\PhpSpec\Extension\TypeHintedMethodsExtension: ~

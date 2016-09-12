@@ -20,8 +20,26 @@ class IssueTable
         $table->addIndex(['reporter_id']);
     }
 
-    public static function downToV0(Schema $schema)
+    public static function downFromV1(Schema $schema)
     {
         $schema->dropTable(self::TABLE_NAME);
+    }
+
+    public static function upToV2(Schema $schema)
+    {
+        $table = $schema->getTable(self::TABLE_NAME);
+        $table->addColumn('issue_number', 'string', ['length' => 255]);
+        $table->addColumn('external_service_id', 'string', ['length' => 255]);
+        $table->addColumn('state', 'string', ['length' => 50]);
+        $table->addColumn('type', 'string', ['length' => 50]);
+    }
+
+    public static function downFromV2(Schema $schema)
+    {
+        $table = $schema->getTable(self::TABLE_NAME);
+        $table->dropColumn('issue_number');
+        $table->dropColumn('external_service_id');
+        $table->dropColumn('state');
+        $table->dropColumn('type');
     }
 }

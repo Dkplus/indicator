@@ -15,6 +15,18 @@ class IssueProjection
     /** @var string */
     public $text;
 
+    /** @var string */
+    public $state;
+
+    /** @var string */
+    public $type;
+
+    /** @var string */
+    public $issueNumber;
+
+    /** @var string */
+    public $externalServiceId;
+
     /** @var DateTime */
     public $updatedAt;
 

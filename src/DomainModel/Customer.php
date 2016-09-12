@@ -25,9 +25,9 @@ class Customer extends AggregateRoot
         return (string) $this->id;
     }
 
-    public function reportIssue(IssueId $id, string $title, string $text): Issue
+    public function reportIssue(IssueId $id, string $title, string $text, IssueType $type): Issue
     {
-        return Issue::reportWith($id, $this->id, $title, $text);
+        return Issue::reportWith($id, $this->id, $title, $text, $type);
     }
 
     protected function whenCustomerWasRegistered(CustomerWasRegistered $data)

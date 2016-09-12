@@ -5,9 +5,9 @@ namespace Dkplus\Indicator\DomainModel\Event;
 use Dkplus\Indicator\DomainModel\IssueId;
 use Prooph\EventSourcing\AggregateChanged;
 
-class IssueWasExportedToExternalService extends AggregateChanged
+class IssueWasExported extends AggregateChanged
 {
-    public static function withIssueNumberAndExternalServiceId(
+    public static function toExternalService(
         IssueId $id,
         string $ticketNumber,
         string $externalServiceId

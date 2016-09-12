@@ -2,12 +2,15 @@
 declare(strict_types=1);
 namespace Dkplus\Indicator\DomainModel\Event;
 
+use DateTimeImmutable;
+use DateTimeZone;
+use Dkplus\Indicator\DomainModel\CustomerId;
 use Dkplus\Indicator\DomainModel\IssueId;
 use Dkplus\Indicator\DomainModel\IssueState;
 use Dkplus\Indicator\DomainModel\IssueType;
 use Prooph\EventSourcing\AggregateChanged;
 
-class IssueWasImported extends AggregateChanged
+class IssueWasRecovered extends AggregateChanged
 {
     public static function fromExternalService(
         IssueId $id,
@@ -16,16 +19,25 @@ class IssueWasImported extends AggregateChanged
         string $issueNumber,
         string $externalServiceId,
         IssueState $state,
-        IssueType $type
+        IssueType $type,
+        DateTimeImmutable $createdAt,
+        CustomerId $reporterId = null
     ): self {
         return self::occur((string) $id, [
+            'reporterId' => (string) $reporterId,
             'title' => $title,
             'text' => $text,
             'issueNumber' => $issueNumber,
             'externalServiceId' => $externalServiceId,
             'state' => (string) $state,
             'type' => (string) $type,
+            'originallyCreatedAt' => $createdAt->getTimestamp(),
         ]);
+    }
+
+    public function reporterId(): string
+    {
+        return $this->payload()['reporterId'];
     }
 
     public function title(): string
@@ -56,5 +68,11 @@ class IssueWasImported extends AggregateChanged
     public function type(): string
     {
         return $this->payload()['type'];
+    }
+
+    public function originallyCreatedAt(): DateTimeImmutable
+    {
+        return (new DateTimeImmutable('@' . $this->payload()['originallyCreatedAt']))
+            ->setTimezone(new DateTimeZone('UTC'));
     }
 }

@@ -2,8 +2,10 @@
 declare(strict_types=1);
 namespace Dkplus\Indicator\DomainModel;
 
-use Dkplus\Indicator\DomainModel\Event\IssueWasExportedToExternalService;
+use DateTimeImmutable;
+use Dkplus\Indicator\DomainModel\Event\IssueWasExported;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImported;
+use Dkplus\Indicator\DomainModel\Event\IssueWasRecovered;
 use Dkplus\Indicator\DomainModel\Event\IssueWasReported;
 use Prooph\EventSourcing\AggregateRoot;
 
@@ -30,15 +32,44 @@ class Issue extends AggregateRoot
     /** @var IssueState */
     private $state;
 
-    public static function importFromExternalService(
+    /** @var IssueType */
+    private $type;
+
+    public static function recoverFromExternalService(
         IssueId $issueId,
         string $title,
         string $text,
         string $issueNumber,
         string $externalServiceId,
         IssueState $state,
-        CustomerId $customerId = null
-    ) {
+        IssueType $type,
+        DateTimeImmutable $originallyCreatedAt,
+        CustomerId $reporterId = null
+    ): self {
+        $result = new self();
+        $result->recordThat(IssueWasRecovered::fromExternalService(
+            $issueId,
+            $title,
+            $text,
+            $issueNumber,
+            $externalServiceId,
+            $state,
+            $type,
+            $originallyCreatedAt,
+            $reporterId
+        ));
+        return $result;
+    }
+
+    public static function importFromAnExternalService(
+        IssueId $issueId,
+        string $title,
+        string $text,
+        string $issueNumber,
+        string $externalServiceId,
+        IssueState $state,
+        IssueType $type
+    ): self {
         $result = new self();
         $result->recordThat(IssueWasImported::fromExternalService(
             $issueId,
@@ -47,15 +78,20 @@ class Issue extends AggregateRoot
             $issueNumber,
             $externalServiceId,
             $state,
-            $customerId
+            $type
         ));
         return $result;
     }
 
-    public static function reportWith(IssueId $id, CustomerId $reporterId, string $title, string $text)
-    {
+    public static function reportWith(
+        IssueId $id,
+        CustomerId $reporterId,
+        string $title,
+        string $text,
+        IssueType $type
+    ): self {
         $result = new self();
-        $result->recordThat(IssueWasReported::with($id, $reporterId, $title, $text));
+        $result->recordThat(IssueWasReported::with($id, $reporterId, $title, $text, $type));
         return $result;
     }
 
@@ -64,12 +100,32 @@ class Issue extends AggregateRoot
         return (string) $this->id;
     }
 
+    public function importFromExternalService(
+        string $title,
+        string $text,
+        string $issueNumber,
+        string $externalServiceId,
+        IssueState $state,
+        IssueType $type
+    ) {
+        if ($this->issueNumber === null
+            && $this->externalServiceId === null
+        ) {
+            $this->recordThat(IssueWasExported::toExternalService(
+                $this->id,
+                $issueNumber,
+                $externalServiceId
+            ));
+        }
+    }
+
     protected function whenIssueWasReported(IssueWasReported $event)
     {
         $this->id = IssueId::fromString($event->aggregateId());
         $this->title = $event->title();
         $this->text = $event->text();
         $this->reporterId = CustomerId::fromString($event->reporterId());
+        $this->type = IssueType::fromString($event->type());
     }
 
     protected function whenIssueWasImported(IssueWasImported $event)
@@ -77,30 +133,33 @@ class Issue extends AggregateRoot
         $this->id = IssueId::fromString($event->aggregateId());
         $this->title = $event->title();
         $this->text = $event->text();
-        $this->reporterId = $event->customerId() !== null ? CustomerId::fromString($event->customerId()) : null;
         $this->issueNumber = $event->issueNumber();
         $this->externalServiceId = $event->externalServiceId();
         $this->state = IssueState::fromString($event->state());
+        $this->type = IssueType::fromString($event->type());
+    }
+
+    public function whenIssueWasRecovered(IssueWasRecovered $event)
+    {
+        $this->id = IssueId::fromString($event->aggregateId());
+        $this->reporterId = $event->reporterId() ? CustomerId::fromString($event->reporterId()) : null;
+        $this->title = $event->title();
+        $this->text = $event->text();
+        $this->issueNumber = $event->issueNumber();
+        $this->externalServiceId = $event->externalServiceId();
+        $this->state = IssueState::fromString($event->state());
+        $this->type = IssueType::fromString($event->type());
+    }
+
+    public function whenIssueWasExported(IssueWasExported $event)
+    {
+        $this->issueNumber = $event->issueNumber();
+        $this->externalServiceId = $event->externalServiceId();
     }
 
     /** @return CustomerId|null */
     public function reporterId()
     {
         return $this->reporterId;
-    }
-
-    public function exportToExternalService(string $issueNumber, string $externalServiceId)
-    {
-        $this->recordThat(IssueWasExportedToExternalService::withIssueNumberAndExternalServiceId(
-            $this->id,
-            $issueNumber,
-            $externalServiceId
-        ));
-    }
-
-    public function whenIssueWasExportedToExternalService(IssueWasExportedToExternalService $event)
-    {
-        $this->issueNumber = $event->issueNumber();
-        $this->externalServiceId = $event->externalServiceId();
     }
 }

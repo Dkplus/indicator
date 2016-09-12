@@ -16,7 +16,7 @@ class CustomerTable
         $table->setPrimaryKey(['id']);
     }
 
-    public static function downToV0(Schema $schema)
+    public static function downFromV1(Schema $schema)
     {
         $schema->dropTable(self::TABLE_NAME);
     }

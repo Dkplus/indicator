@@ -5,6 +5,7 @@ namespace Dkplus\Indicator\Infrastructure\Repository;
 use Dkplus\Indicator\DomainModel\FeedbackForum;
 use Dkplus\Indicator\DomainModel\Issue;
 use Dkplus\Indicator\DomainModel\IssueId;
+use Dkplus\Indicator\DomainModel\IssueNotFound;
 use Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator;
 use Prooph\EventStore\Aggregate\AggregateRepository;
 use Prooph\EventStore\Aggregate\AggregateType;
@@ -26,7 +27,11 @@ class EventStoreFeedbackForum extends AggregateRepository implements FeedbackFor
 
     public function withId(IssueId $issueId): Issue
     {
-        return $this->getAggregateRoot((string) $issueId);
+        $result = $this->getAggregateRoot((string) $issueId); /* @var $result Issue|null */
+        if (! $result) {
+            throw IssueNotFound::withId((string) $issueId);
+        }
+        return $result;
     }
 
     public function add(Issue $issue)

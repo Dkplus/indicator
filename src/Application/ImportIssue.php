@@ -7,29 +7,28 @@ use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
 use Ramsey\Uuid\UuidInterface;
 
-class ReportIssue extends Command implements PayloadConstructable
+class ImportIssue extends Command  implements PayloadConstructable
 {
     use PayloadTrait;
 
-    public static function withTitleAndText(
-        UuidInterface $customerId,
+    public static function fromExternalService(
         UuidInterface $issueId,
         string $title,
         string $text,
-        string $type
+        string $state,
+        string $type,
+        string $issueNumber,
+        string $externalServiceId
     ): self {
         return new self([
-            'reporterId' => $customerId->toString(),
             'issueId' => $issueId->toString(),
             'title' => $title,
             'text' => $text,
+            'state' => $state,
             'type' => $type,
+            'issueNumber' => $issueNumber,
+            'externalServiceId' => $externalServiceId,
         ]);
-    }
-
-    public function reporterId(): string
-    {
-        return $this->payload()['reporterId'];
     }
 
     public function issueId(): string
@@ -42,13 +41,28 @@ class ReportIssue extends Command implements PayloadConstructable
         return $this->payload()['title'];
     }
 
+    public function text(): string
+    {
+        return $this->payload()['text'];
+    }
+
+    public function state(): string
+    {
+        return $this->payload()['text'];
+    }
+
     public function type(): string
     {
         return $this->payload()['type'];
     }
 
-    public function text(): string
+    public function issueNumber(): string
     {
-        return $this->payload()['text'];
+        return $this->payload()['issueNumber'];
+    }
+
+    public function externalServiceId(): string
+    {
+        return $this->payload()['externalServiceId'];
     }
 }
