@@ -6,7 +6,6 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Dkplus\Indicator\Application\ImportIssue;
 use Dkplus\Indicator\Application\RecoverIssue;
-use Dkplus\Indicator\DomainModel\IssueId;
 use Gitlab\Api\Issues;
 use Gitlab\Client;
 use Gitlab\Model\Issue;
@@ -63,14 +62,14 @@ class GitLabImporter
         } while (count($nextPage) === Issues::PER_PAGE);
 
         $result = [];
-        foreach ($issues as $each) { /* @var $each \Gitlab\Model\Issue */
-            $result[] = $this->issueToRecoverCommand($each, $projectId);
+        foreach ($issues as $each) {
+            $result[] = $this->issueToRecoverCommand((object) $each, $projectId);
         }
         return array_filter($result);
     }
 
     /**
-     * @param Issue $issue
+     * @param Issue|object $issue
      * @return RecoverIssue|null
      */
     private function issueToRecoverCommand($issue, int $projectId)
@@ -95,16 +94,28 @@ class GitLabImporter
         }
 
         if ($issueId === null) {
-            /** @var $eachComment Note */
             foreach ($this->client->issues->showComments($projectId, $issue->id) as $eachComment) {
+                $eachComment = (object) $eachComment; /** @var $eachComment Note */
                 if (preg_match($issueIdRegExp, $eachComment->body, $matches)) {
                     $issueId = $matches[1];
                 }
             }
         }
 
+        if ($issueId === null) {
+            return ImportIssue::fromExternalService(
+                Uuid::uuid4(),
+                $issue->title,
+                $text,
+                $this->stateOfIssue($issue),
+                $this->typeOfIssue($issue),
+                (string) $issue->iid,
+                (string) $issue->id
+            );
+        }
+
         return RecoverIssue::fromExternalService(
-            $issueId,
+            Uuid::fromString($issueId),
             $issue->title,
             $text,
             $this->stateOfIssue($issue),
@@ -112,7 +123,7 @@ class GitLabImporter
             (string) $issue->iid,
             (string) $issue->id,
             $customerId,
-            DateTimeImmutable::createFromFormat(DATE_ISO8601, $issue->created_at, new DateTimeZone('UTC'))
+            DateTimeImmutable::createFromFormat('Y-m-d\TH:i:s.uZ', $issue->created_at, new DateTimeZone('UTC'))
         );
     }
 

@@ -48,7 +48,7 @@ class ImportIssue extends Command  implements PayloadConstructable
 
     public function state(): string
     {
-        return $this->payload()['text'];
+        return $this->payload()['state'];
     }
 
     public function type(): string

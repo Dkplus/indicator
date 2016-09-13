@@ -47,6 +47,7 @@ class IssueProjector
             'state' => $data->state(),
             'type' => $data->type(),
             'updated_at' => $data->createdAt(),
+            'reporter_id' => '',
         ], [
             'updated_at' => Type::DATETIME
         ]);
@@ -68,7 +69,7 @@ class IssueProjector
     {
         $this->connection->insert(IssueTable::TABLE_NAME, [
             'id' => $data->aggregateId(),
-            'reporter_id' => $data->reporterId(),
+            'reporter_id' => $data->reporterId() ?: '',
             'title' => $data->title(),
             'text' => $data->text(),
             'external_service_id' => $data->externalServiceId(),
