@@ -114,6 +114,13 @@ class GitLabImporter
             );
         }
 
+        $date = false;
+        $dateFormats = ['Y-m-d\TH:i:s.uT', 'Y-m-d\TH:i:s.uZ'];
+        while (! $date) {
+            $date = DateTimeImmutable::createFromFormat(current($dateFormats), $issue->created_at)
+                ->setTimezone(new DateTimeZone('UTC'));
+            next($dateFormats);
+        }
         return RecoverIssue::fromExternalService(
             Uuid::fromString($issueId),
             $issue->title,
@@ -123,7 +130,7 @@ class GitLabImporter
             (string) $issue->iid,
             (string) $issue->id,
             $customerId,
-            DateTimeImmutable::createFromFormat('Y-m-d\TH:i:s.uZ', $issue->created_at, new DateTimeZone('UTC'))
+            $date
         );
     }
 
