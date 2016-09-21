@@ -12,14 +12,14 @@ class ReportIssue extends Command implements PayloadConstructable
     use PayloadTrait;
 
     public static function withTitleAndText(
-        UuidInterface $customerId,
+        string $customerId,
         UuidInterface $issueId,
         string $title,
         string $text,
         string $type
     ): self {
         return new self([
-            'reporterId' => $customerId->toString(),
+            'reporterId' => $customerId,
             'issueId' => $issueId->toString(),
             'title' => $title,
             'text' => $text,

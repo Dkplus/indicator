@@ -27,14 +27,17 @@
         "ramsey/uuid": "^3.5",
         "prooph/event-store": "^6.3",
         "m4tthumphrey/php-gitlab-api": "^7.13",
-        "beberlei/assert": "^2.6"
+        "beberlei/assert": "^2.6",
+        "dkplus/formica": "^0.1.0"
     },
     "require-dev": {
         "behat/behat": "^3.1",
         "phpspec/phpspec": "@dev",
         "ciaranmcnulty/phpspec-typehintedmethods": "^2.0",
         "bossa/phpspec2-expect": "^2.0",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "nayjest/builder": "^2.1",
+        "fzaninotto/faker": "^1.6"
     },
     "config": {
         "bin-dir": "bin"

@@ -5,15 +5,14 @@ namespace Dkplus\Indicator\Application;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
-use Ramsey\Uuid\UuidInterface;
 
 class RegisterCustomer extends Command implements PayloadConstructable
 {
     use PayloadTrait;
 
-    public static function withName(UuidInterface $customerId, string $name)
+    public static function withName(string $customerId, string $name)
     {
-        return new self(['customerId' => $customerId->toString(), 'name' => $name]);
+        return new self(['customerId' => $customerId, 'name' => $name]);
     }
 
     public function customerId(): string

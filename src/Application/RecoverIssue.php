@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Dkplus\Indicator\Application;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 use DateTimeZone;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadConstructable;
@@ -22,7 +23,7 @@ class RecoverIssue extends Command  implements PayloadConstructable
         string $issueNumber,
         string $externalServiceId,
         string $customerId = null,
-        DateTimeImmutable $originallyCreatedAt
+        DateTimeInterface $originallyCreatedAt
     ): self {
         return new self([
             'issueId' => $issueId->toString(),

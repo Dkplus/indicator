@@ -139,7 +139,7 @@ class Issue extends AggregateRoot
         $this->type = IssueType::fromString($event->type());
     }
 
-    public function whenIssueWasRecovered(IssueWasRecovered $event)
+    protected function whenIssueWasRecovered(IssueWasRecovered $event)
     {
         $this->id = IssueId::fromString($event->aggregateId());
         $this->reporterId = $event->reporterId() ? CustomerId::fromString($event->reporterId()) : null;
@@ -151,7 +151,7 @@ class Issue extends AggregateRoot
         $this->type = IssueType::fromString($event->type());
     }
 
-    public function whenIssueWasExported(IssueWasExported $event)
+    protected function whenIssueWasExported(IssueWasExported $event)
     {
         $this->issueNumber = $event->issueNumber();
         $this->externalServiceId = $event->externalServiceId();

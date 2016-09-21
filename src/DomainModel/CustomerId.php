@@ -7,7 +7,7 @@ use Ramsey\Uuid\Uuid;
 class CustomerId
 {
     /** @var string */
-    private $uuid;
+    private $id;
 
     public static function fromString(string $value): self
     {
@@ -19,18 +19,18 @@ class CustomerId
         return new self(Uuid::uuid4()->toString());
     }
 
-    private function __construct(string $uuid)
+    private function __construct(string $id)
     {
-        $this->uuid = $uuid;
+        $this->id = $id;
     }
 
     public function __toString(): string
     {
-        return $this->uuid;
+        return $this->id;
     }
 
     public function equals($anotherId)
     {
-        return $this->uuid === (string) $anotherId;
+        return $this->id === (string) $anotherId;
     }
 }
