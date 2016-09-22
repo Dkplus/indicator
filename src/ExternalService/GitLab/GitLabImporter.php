@@ -11,6 +11,7 @@ use Gitlab\Client;
 use Gitlab\Model\Issue;
 use Gitlab\Model\Note;
 use Ramsey\Uuid\Uuid;
+use stdClass;
 
 class GitLabImporter
 {
@@ -69,10 +70,10 @@ class GitLabImporter
     }
 
     /**
-     * @param Issue|object $issue
+     * @param Issue|stdClass $issue
      * @return RecoverIssue|null
      */
-    private function issueToRecoverCommand($issue, int $projectId)
+    private function issueToRecoverCommand(stdClass $issue, int $projectId)
     {
         if (! in_array('public', $issue->labels)) {
             return null;

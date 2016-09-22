@@ -10,9 +10,6 @@ class Customer extends AggregateRoot
     /** @var CustomerId */
     private $id;
 
-    /** @var string */
-    private $name;
-
     public static function register(CustomerId $id, string $name): self
     {
         $result = new self();
@@ -33,7 +30,6 @@ class Customer extends AggregateRoot
     protected function whenCustomerWasRegistered(CustomerWasRegistered $data)
     {
         $this->id = CustomerId::fromString($data->aggregateId());
-        $this->name = $data->name();
     }
 
     public function id()

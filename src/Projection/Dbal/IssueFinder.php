@@ -39,23 +39,26 @@ class IssueFinder
             ->where('issue.open = 1')
             ->orderBy('issue.updated_at', 'DESC')
             ->execute();
-        return array_map(function (array $row) {
-            $result = new IssueProjection();
-            $result->id = $row['id'];
-            $result->title = $row['title'];
-            $result->text = $row['text'];
-            $result->state = $row['state'];
-            $result->type = $row['type'];
-            $result->externalServiceId = $row['external_service_id'];
-            $result->issueNumber = $row['issue_number'];
-            $result->updatedAt = new DateTimeImmutable($row['updated_at'], new DateTimeZone('UTC'));
-            if ($row['reporter_id']) {
-                $result->reporter = new CustomerProjection();
-                $result->reporter->id = $row['reporter_id'];
-                $result->reporter->name = $row['reporter_name'];
-            }
-            return $result;
-        }, $statement->fetchAll());
+        return array_map([$this, 'arrayToProjection'], $statement->fetchAll());
+    }
+
+    private function arrayToProjection(array $row)
+    {
+        $result = new IssueProjection();
+        $result->id = $row['id'];
+        $result->title = $row['title'];
+        $result->text = $row['text'];
+        $result->state = $row['state'];
+        $result->type = $row['type'];
+        $result->externalServiceId = $row['external_service_id'];
+        $result->issueNumber = $row['issue_number'];
+        $result->updatedAt = new DateTimeImmutable($row['updated_at'], new DateTimeZone('UTC'));
+        if ($row['reporter_id']) {
+            $result->reporter = new CustomerProjection();
+            $result->reporter->id = $row['reporter_id'];
+            $result->reporter->name = $row['reporter_name'];
+        }
+        return $result;
     }
 
     /**
@@ -81,23 +84,7 @@ class IssueFinder
             ->where('issue.open = 0')
             ->orderBy('issue.updated_at', 'DESC')
             ->execute();
-        return array_map(function (array $row) {
-            $result = new IssueProjection();
-            $result->id = $row['id'];
-            $result->title = $row['title'];
-            $result->text = $row['text'];
-            $result->state = $row['state'];
-            $result->type = $row['type'];
-            $result->externalServiceId = $row['external_service_id'];
-            $result->issueNumber = $row['issue_number'];
-            $result->updatedAt = new DateTimeImmutable($row['updated_at'], new DateTimeZone('UTC'));
-            if ($row['reporter_id']) {
-                $result->reporter = new CustomerProjection();
-                $result->reporter->id = $row['reporter_id'];
-                $result->reporter->name = $row['reporter_name'];
-            }
-            return $result;
-        }, $statement->fetchAll());
+        return array_map([$this, 'arrayToProjection'], $statement->fetchAll());
     }
 
     /** @return IssueProjection|null */
@@ -122,23 +109,7 @@ class IssueFinder
             ->setParameter('id', $id)
             ->execute();
 
-        $results = array_map(function (array $row) {
-            $result = new IssueProjection();
-            $result->id = $row['id'];
-            $result->title = $row['title'];
-            $result->text = $row['text'];
-            $result->state = $row['state'];
-            $result->type = $row['type'];
-            $result->externalServiceId = $row['external_service_id'];
-            $result->issueNumber = $row['issue_number'];
-            $result->updatedAt = new DateTimeImmutable($row['updated_at'], new DateTimeZone('UTC'));
-            if ($row['reporter_id']) {
-                $result->reporter = new CustomerProjection();
-                $result->reporter->id = $row['reporter_id'];
-                $result->reporter->name = $row['reporter_name'];
-            }
-            return $result;
-        }, $statement->fetchAll());
+        $results = array_map([$this, 'arrayToProjection'], $statement->fetchAll());
         return current($results) ?? null;
     }
 }

@@ -3,9 +3,7 @@ declare(strict_types=1);
 namespace Dkplus\Indicator\ExternalService\GitLab;
 
 use Dkplus\Indicator\DomainModel\Event\IssueWasWithdrawn;
-use Dkplus\Indicator\DomainModel\Event\IssueWasImplemented;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImported;
-use Dkplus\Indicator\DomainModel\Event\IssueWasRejected;
 use Dkplus\Indicator\DomainModel\Event\IssueWasReported;
 use Gitlab\Client;
 
