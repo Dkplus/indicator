@@ -4,9 +4,9 @@ namespace Dkplus\Indicator\DomainModel;
 
 use Exception;
 
-class IssueNotFound extends Exception 
+class IssueNotFound extends Exception
 {
-    public static function withId($id)
+    public static function withId($id): self
     {
         return new self("Could not found an issue with id $id");
     }

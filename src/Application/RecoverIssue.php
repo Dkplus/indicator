@@ -10,7 +10,7 @@ use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
 use Ramsey\Uuid\UuidInterface;
 
-class RecoverIssue extends Command  implements PayloadConstructable
+class RecoverIssue extends Command implements PayloadConstructable
 {
     use PayloadTrait;
 
