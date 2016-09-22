@@ -143,7 +143,13 @@ class GitLabImporter
         if ($issue->state !== 'closed') {
             return 'open';
         }
-        return in_array('won\'t fix', $issue->labels) ? 'rejected' : 'implemented';
+        if (in_array('won\'t fix', $issue->labels)) {
+            return 'rejected';
+        }
+        if (in_array('closed', $issue->labels)) {
+            return 'closed';
+        }
+        return 'implemented';
     }
 
     /**

@@ -33,7 +33,7 @@ class ReportIssueHandlerSpec extends ObjectBehavior
         $customers->withId(CustomerId::fromString($command->reporterId()))->willReturn($customer);
         $customer->reportIssue(Argument::cetera())->willReturn($issue);
 
-        $this->getWrappedObject()->__invoke($command);
+        $this->__invoke($command);
 
         $feedbackForum->add($issue)->shouldHaveBeenCalled();
     }

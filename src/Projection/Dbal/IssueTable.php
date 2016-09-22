@@ -42,4 +42,16 @@ class IssueTable
         $table->dropColumn('state');
         $table->dropColumn('type');
     }
+
+    public static function upToV3(Schema $schema)
+    {
+        $table = $schema->getTable(self::TABLE_NAME);
+        $table->addColumn('open', 'boolean');
+    }
+
+    public static function downFromV3(Schema $schema)
+    {
+        $table = $schema->getTable(self::TABLE_NAME);
+        $table->dropColumn('open');
+    }
 }

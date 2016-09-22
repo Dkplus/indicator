@@ -3,9 +3,12 @@ declare(strict_types=1);
 namespace Dkplus\Indicator\DomainModel;
 
 use DateTimeImmutable;
+use Dkplus\Indicator\DomainModel\Event\IssueWasClosed;
 use Dkplus\Indicator\DomainModel\Event\IssueWasExported;
+use Dkplus\Indicator\DomainModel\Event\IssueWasImplemented;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImported;
 use Dkplus\Indicator\DomainModel\Event\IssueWasRecovered;
+use Dkplus\Indicator\DomainModel\Event\IssueWasRejected;
 use Dkplus\Indicator\DomainModel\Event\IssueWasReported;
 use Prooph\EventSourcing\AggregateRoot;
 
@@ -117,6 +120,13 @@ class Issue extends AggregateRoot
                 $externalServiceId
             ));
         }
+        if (! $this->state->equals($state)) {
+            if ($state->equals(IssueState::implemented())) {
+                $this->recordThat(IssueWasImplemented::bySystem($this->id));
+            } elseif ($state->equals(IssueState::rejected())) {
+                $this->recordThat(IssueWasRejected::bySystem($this->id));
+            }
+        }
     }
 
     protected function whenIssueWasReported(IssueWasReported $event)
@@ -126,6 +136,7 @@ class Issue extends AggregateRoot
         $this->text = $event->text();
         $this->reporterId = CustomerId::fromString($event->reporterId());
         $this->type = IssueType::fromString($event->type());
+        $this->state = IssueState::opened();
     }
 
     protected function whenIssueWasImported(IssueWasImported $event)
@@ -161,5 +172,27 @@ class Issue extends AggregateRoot
     public function reporterId()
     {
         return $this->reporterId;
+    }
+
+    public function close()
+    {
+        if ($this->reporterId && $this->state->isOpen()) {
+            $this->recordThat(IssueWasClosed::byUser($this->id, $this->reporterId));
+        }
+    }
+
+    protected function whenIssueWasClosed()
+    {
+        $this->state = IssueState::closed();
+    }
+
+    protected function whenIssueWasImplemented()
+    {
+        $this->state = IssueState::implemented();
+    }
+
+    protected function whenIssueWasRejected()
+    {
+        $this->state = IssueState::rejected();
     }
 }

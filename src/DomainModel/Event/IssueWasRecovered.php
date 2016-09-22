@@ -65,6 +65,11 @@ class IssueWasRecovered extends AggregateChanged
         return $this->payload()['state'];
     }
 
+    public function open(): bool
+    {
+        return IssueState::fromString($this->state())->isOpen();
+    }
+
     public function type(): string
     {
         return $this->payload()['type'];

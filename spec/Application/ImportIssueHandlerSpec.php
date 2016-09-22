@@ -34,7 +34,7 @@ class ImportIssueHandlerSpec extends ObjectBehavior
             ->willThrow(IssueNotFound::withId($command->issueId()));
         $feedbackForum->add(Argument::any())->shouldBeCalled();
 
-        $this->getWrappedObject()->__invoke($command);
+        $this->__invoke($command);
 
     }
 
@@ -45,7 +45,7 @@ class ImportIssueHandlerSpec extends ObjectBehavior
             ->withId(IssueId::fromString($command->issueId()))
             ->willReturn($issue);
 
-        $this->getWrappedObject()->__invoke($command);
+        $this->__invoke($command);
 
         $issue->importFromExternalService(Argument::cetera())->shouldHaveBeenCalled();
     }

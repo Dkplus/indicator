@@ -7,7 +7,7 @@ use Prooph\Common\Messaging\PayloadConstructable;
 use Prooph\Common\Messaging\PayloadTrait;
 use Ramsey\Uuid\UuidInterface;
 
-class ImportIssue extends Command  implements PayloadConstructable
+class ImportIssue extends Command implements PayloadConstructable
 {
     use PayloadTrait;
 

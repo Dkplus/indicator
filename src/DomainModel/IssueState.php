@@ -9,7 +9,7 @@ class IssueState
     /** @var string */
     private $state;
 
-    public static function open(): self
+    public static function opened(): self
     {
         return new IssueState('open');
     }
@@ -24,6 +24,11 @@ class IssueState
         return new IssueState('rejected');
     }
 
+    public static function closed(): self
+    {
+        return new IssueState('closed');
+    }
+
     public static function fromString($state): self
     {
         return new IssueState($state);
@@ -31,8 +36,18 @@ class IssueState
 
     private function __construct(string $state)
     {
-        Assertion::inArray($state, ['open', 'implemented', 'rejected']);
+        Assertion::inArray($state, ['open', 'implemented', 'rejected', 'closed']);
         $this->state = $state;
+    }
+
+    public function isOpen(): bool
+    {
+        return $this->state === 'open';
+    }
+
+    public function equals(self $anotherState): bool
+    {
+        return $this->state === $anotherState->state;
     }
 
     public function __toString(): string

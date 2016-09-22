@@ -24,7 +24,7 @@ class RegisterCustomerHandlerSpec extends ObjectBehavior
 
     function it_registers_customers(Customers $customers)
     {
-        $this->getWrappedObject()->__invoke(RegisterCustomerBuilder::aRegisterCustomerCommand()->build());
+        $this->__invoke(RegisterCustomerBuilder::aRegisterCustomerCommand()->build());
 
         $customers->add(Argument::any())->shouldHaveBeenCalled();
     }
