@@ -82,8 +82,8 @@ class GitLabImporter
         $customerId = null;
         $text = $issue->description;
 
-        $issueIdRegExp = '/^\[([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})\](.*)$/';
-        $customerIdRegExp = '/^\[Reported by ([^\]]+)\](.*)$/';
+        $issueIdRegExp = '/^\[([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})\](.*)$/m';
+        $customerIdRegExp = '/^\[Reported by ([^\]]+)\](.*)$/m';
         if (preg_match($issueIdRegExp, $text, $matches)) {
             $issueId = $matches[1];
             $text = preg_replace($issueIdRegExp, '$2', $text);

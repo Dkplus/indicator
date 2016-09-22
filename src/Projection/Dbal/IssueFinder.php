@@ -29,6 +29,7 @@ class IssueFinder
                 'issue.text',
                 'issue.state',
                 'issue.issue_number',
+                'issue.type',
                 'issue.external_service_id',
                 'customer.id AS reporter_id',
                 'customer.name AS reporter_name'
@@ -44,6 +45,7 @@ class IssueFinder
             $result->title = $row['title'];
             $result->text = $row['text'];
             $result->state = $row['state'];
+            $result->type = $row['type'];
             $result->externalServiceId = $row['external_service_id'];
             $result->issueNumber = $row['issue_number'];
             $result->updatedAt = new DateTimeImmutable($row['updated_at'], new DateTimeZone('UTC'));
@@ -69,6 +71,7 @@ class IssueFinder
                 'issue.text',
                 'issue.state',
                 'issue.issue_number',
+                'issue.type',
                 'issue.external_service_id',
                 'customer.id AS reporter_id',
                 'customer.name AS reporter_name'
@@ -84,6 +87,7 @@ class IssueFinder
             $result->title = $row['title'];
             $result->text = $row['text'];
             $result->state = $row['state'];
+            $result->type = $row['type'];
             $result->externalServiceId = $row['external_service_id'];
             $result->issueNumber = $row['issue_number'];
             $result->updatedAt = new DateTimeImmutable($row['updated_at'], new DateTimeZone('UTC'));
@@ -107,6 +111,7 @@ class IssueFinder
                 'issue.text',
                 'issue.state',
                 'issue.issue_number',
+                'issue.type',
                 'issue.external_service_id',
                 'customer.id AS reporter_id',
                 'customer.name AS reporter_name'
@@ -123,6 +128,7 @@ class IssueFinder
             $result->title = $row['title'];
             $result->text = $row['text'];
             $result->state = $row['state'];
+            $result->type = $row['type'];
             $result->externalServiceId = $row['external_service_id'];
             $result->issueNumber = $row['issue_number'];
             $result->updatedAt = new DateTimeImmutable($row['updated_at'], new DateTimeZone('UTC'));

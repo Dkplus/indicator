@@ -46,7 +46,6 @@ class GitLabExporter
         );
     }
 
-
     public function onIssueWasClosed(IssueWasClosed $event)
     {
         if (! $event->externalServiceId()) {

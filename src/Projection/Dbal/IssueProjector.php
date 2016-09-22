@@ -54,7 +54,8 @@ class IssueProjector
             'updated_at' => $data->createdAt(),
             'reporter_id' => '',
         ], [
-            'updated_at' => Type::DATETIME
+            'open' => Type::BOOLEAN,
+            'updated_at' => Type::DATETIME,
         ]);
     }
 
@@ -66,7 +67,7 @@ class IssueProjector
         ], [
             'id' => $data->aggregateId()
         ], [
-            'updated_at' => Type::DATETIME
+            'updated_at' => Type::DATETIME,
         ]);
     }
 
@@ -84,7 +85,8 @@ class IssueProjector
             'type' => $data->type(),
             'updated_at' => $data->originallyCreatedAt(),
         ], [
-            'updated_at' => Type::DATETIME
+            'open' => Type::BOOLEAN,
+            'updated_at' => Type::DATETIME,
         ]);
     }
 
@@ -97,7 +99,8 @@ class IssueProjector
         ], [
             'id' => $data->aggregateId(),
         ], [
-            'updated_at' => Type::DATETIME
+            'open' => Type::BOOLEAN,
+            'updated_at' => Type::DATETIME,
         ]);
     }
 
@@ -110,7 +113,8 @@ class IssueProjector
         ], [
             'id' => $data->aggregateId()
         ], [
-            'updated_at' => Type::DATETIME
+            'open' => Type::BOOLEAN,
+            'updated_at' => Type::DATETIME,
         ]);
     }
 
@@ -123,7 +127,8 @@ class IssueProjector
         ], [
             'id' => $data->aggregateId()
         ], [
-            'updated_at' => Type::DATETIME
+            'open' => Type::BOOLEAN,
+            'updated_at' => Type::DATETIME,
         ]);
     }
 }
