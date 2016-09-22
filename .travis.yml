@@ -1,0 +1,25 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+  - hhvm
+  - hhvm-nightly
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: hhvm
+    - php: hhvm-nightly
+    - php: 7.1
+
+before_install:
+  - composer self-update
+
+install: composer update --prefer-dist --no-interaction
+
+script:
+  - bin/phpcs --standard=PSR2 src
+  - bin/phpspec run
+  - bin/behat -s customer
+  - bin/behat -s supporter

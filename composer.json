@@ -37,7 +37,8 @@
         "bossa/phpspec2-expect": "^2.0",
         "doctrine/dbal": "^2.5",
         "nayjest/builder": "^2.1",
-        "fzaninotto/faker": "^1.6"
+        "fzaninotto/faker": "^1.6",
+        "squizlabs/php_codesniffer": "^2.7"
     },
     "config": {
         "bin-dir": "bin"
