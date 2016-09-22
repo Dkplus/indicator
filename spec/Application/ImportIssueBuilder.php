@@ -17,7 +17,7 @@ class ImportIssueBuilder extends Builder
             'id' => Uuid::uuid4(),
             'title' => 'Some title',
             'text' => 'Some text',
-            'state' => 'open',
+            'state' => 'reported',
             'type' => 'bug',
             'issueNumber' => '4',
             'externalServiceId' => '2',

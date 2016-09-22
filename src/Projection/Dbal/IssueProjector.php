@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Dkplus\Indicator\Projection\Dbal;
 
-use Dkplus\Indicator\DomainModel\Event\IssueWasClosed;
+use Dkplus\Indicator\DomainModel\Event\IssueWasWithdrawn;
 use Dkplus\Indicator\DomainModel\Event\IssueWasExported;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImplemented;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImported;
@@ -90,7 +90,7 @@ class IssueProjector
         ]);
     }
 
-    public function onIssueWasClosed(IssueWasClosed $data)
+    public function onIssueWasClosed(IssueWasWithdrawn $data)
     {
         $this->connection->update(IssueTable::TABLE_NAME, [
             'state' => 'closed',

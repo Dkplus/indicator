@@ -92,7 +92,7 @@ class AggregateChangedMatcher implements Matcher
             return AggregateRootDecorator::newInstance()->extractRecordedEvents($subject);
         }
         if ($subject instanceof EventStore) {
-            return $subject->getRecordedEvents();
+            return iterator_to_array($subject->getRecordedEvents());
         }
         throw new RuntimeException('This should be never reached.');
     }

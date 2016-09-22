@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace spec\Dkplus\Indicator\DomainModel;
 
 use DateTimeImmutable;
-use Dkplus\Indicator\DomainModel\Event\IssueWasClosed;
+use Dkplus\Indicator\DomainModel\Event\IssueWasWithdrawn;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImplemented;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImported;
 use Dkplus\Indicator\DomainModel\Event\IssueWasExported;
@@ -43,7 +43,7 @@ class IssueSpec extends ObjectBehavior
     {
         $this->beConstructedThrough(
             'importFromAnExternalService',
-            [IssueId::generate(), 'Title', 'Text', '4', '6', IssueState::opened(), IssueType::enhancement()]
+            [IssueId::generate(), 'Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement()]
         );
         $this->shouldHaveRecorded(IssueWasImported::class);
     }
@@ -57,15 +57,15 @@ class IssueSpec extends ObjectBehavior
     {
         $this->beConstructedThrough(
             'importFromAnExternalService',
-            [IssueId::generate(), 'Title', 'Text', '4', '6', IssueState::opened(), IssueType::enhancement()]
+            [IssueId::generate(), 'Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement()]
         );
         $this->reporterId()->shouldBeNull();
     }
 
     function it_is_exported_once_to_an_external_service()
     {
-        $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::opened(), IssueType::enhancement());
-        $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::opened(), IssueType::enhancement());
+        $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement());
+        $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement());
         $this->shouldHaveRecordedOnce(IssueWasExported::class);
     }
 
@@ -73,9 +73,9 @@ class IssueSpec extends ObjectBehavior
     {
         $this->beConstructedThrough(
             'importFromAnExternalService',
-            [IssueId::generate(), 'Title', 'Text', '4', '6', IssueState::opened(), IssueType::enhancement()]
+            [IssueId::generate(), 'Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement()]
         );
-        $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::opened(), IssueType::enhancement());
+        $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement());
         $this->shouldNotHaveRecorded(IssueWasExported::class);
     }
 
@@ -87,7 +87,7 @@ class IssueSpec extends ObjectBehavior
             'Text',
             '4',
             '6',
-            IssueState::opened(),
+            IssueState::reported(),
             IssueType::enhancement(),
             new DateTimeImmutable('10 days ago'),
             CustomerId::generate(),
@@ -104,12 +104,12 @@ class IssueSpec extends ObjectBehavior
             'Text',
             '4',
             '6',
-            IssueState::opened(),
+            IssueState::reported(),
             IssueType::enhancement(),
             new DateTimeImmutable('10 days ago'),
             CustomerId::generate(),
         ]);
-        $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::opened(), IssueType::enhancement());
+        $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement());
         $this->shouldNotHaveRecorded(IssueWasExported::class);
     }
 
@@ -121,7 +121,7 @@ class IssueSpec extends ObjectBehavior
             'Text',
             '4',
             '6',
-            IssueState::opened(),
+            IssueState::reported(),
             IssueType::enhancement(),
             new DateTimeImmutable('10 days ago'),
         ]);
@@ -143,19 +143,19 @@ class IssueSpec extends ObjectBehavior
         $this->shouldHaveRecordedOnce(IssueWasImplemented::class);
     }
 
-    function it_can_be_closed_if_it_has_been_reported()
+    function it_can_be_withdrawn_if_it_has_been_reported()
     {
-        $this->close();
-        $this->close();
-        $this->shouldHaveRecordedOnce(IssueWasClosed::class);
+        $this->withdraw();
+        $this->withdraw();
+        $this->shouldHaveRecordedOnce(IssueWasWithdrawn::class);
     }
 
     function it_cannot_by_closed_if_it_has_been_imported()
     {
         $this->beConstructedThrough(
             'importFromAnExternalService',
-            [IssueId::generate(), 'Title', 'Text', '4', '6', IssueState::opened(), IssueType::enhancement()]
+            [IssueId::generate(), 'Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement()]
         );
-        $this->close()->shouldThrow(IssueNotClosable::class);
+        $this->withdraw()->shouldThrow(IssueNotClosable::class);
     }
 }

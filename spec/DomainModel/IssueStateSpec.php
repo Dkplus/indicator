@@ -10,11 +10,11 @@ use PhpSpec\ObjectBehavior;
  */
 class IssueStateSpec extends ObjectBehavior
 {
-    function it_can_be_opened()
+    function it_can_be_reported()
     {
-        $this->beConstructedThrough('opened');
+        $this->beConstructedThrough('reported');
         $this->shouldHaveType(IssueState::class);
-        $this->shouldBeLike('open');
+        $this->shouldBeLike('reported');
     }
 
     function it_can_be_implemented()
@@ -31,18 +31,18 @@ class IssueStateSpec extends ObjectBehavior
         $this->shouldBeLike('rejected');
     }
 
-    function it_can_be_closed()
+    function it_can_be_withdrawn()
     {
-        $this->beConstructedThrough('closed');
+        $this->beConstructedThrough('withdrawn');
         $this->shouldHaveType(IssueState::class);
-        $this->shouldBeLike('closed');
+        $this->shouldBeLike('withdrawn');
     }
 
-    function it_can_be_reconstructed_from_string_as_opened()
+    function it_can_be_reconstructed_from_string_as_reported()
     {
-        $this->beConstructedThrough('fromString', ['open']);
+        $this->beConstructedThrough('fromString', ['reported']);
         $this->shouldHaveType(IssueState::class);
-        $this->shouldBeLike('open');
+        $this->shouldBeLike('reported');
     }
 
     function it_can_be_reconstructed_from_string_as_implemented()
@@ -59,29 +59,29 @@ class IssueStateSpec extends ObjectBehavior
         $this->shouldBeLike('rejected');
     }
 
-    function it_can_be_reconstructed_from_string_as_closed()
+    function it_can_be_reconstructed_from_string_as_withdrawn()
     {
-        $this->beConstructedThrough('fromString', ['closed']);
+        $this->beConstructedThrough('fromString', ['withdrawn']);
         $this->shouldHaveType(IssueState::class);
-        $this->shouldBeLike('closed');
+        $this->shouldBeLike('withdrawn');
     }
 
     function it_can_be_equal_to_another_state()
     {
-        $this->beConstructedThrough('opened');
-        $this->equals(IssueState::opened())->shouldBe(true);
-        $this->equals(IssueState::closed())->shouldBe(false);
+        $this->beConstructedThrough('reported');
+        $this->equals(IssueState::reported())->shouldBe(true);
+        $this->equals(IssueState::withdrawn())->shouldBe(false);
     }
 
-    function it_is_open_when_its_opened()
+    function it_is_open_when_its_reported()
     {
-        $this->beConstructedThrough('opened');
+        $this->beConstructedThrough('reported');
         $this->isOpen()->shouldBe(true);
     }
 
-    function it_is_not_open_when_its_closed()
+    function it_is_not_open_when_its_withdrawn()
     {
-        $this->beConstructedThrough('closed');
+        $this->beConstructedThrough('withdrawn');
         $this->isOpen()->shouldBe(false);
     }
 

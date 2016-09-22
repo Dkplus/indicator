@@ -7,7 +7,7 @@ use Dkplus\Indicator\DomainModel\FeedbackForum;
 use Dkplus\Indicator\DomainModel\IssueId;
 use Dkplus\Indicator\DomainModel\IssueNotClosable;
 
-class CloseIssueHandler
+class WithdrawIssueHandler
 {
     /** @var FeedbackForum */
     private $feedbackForum;
@@ -17,7 +17,7 @@ class CloseIssueHandler
         $this->feedbackForum = $feedbackForum;
     }
 
-    public function __invoke(CloseIssue $data)
+    public function __invoke(WithdrawIssue $data)
     {
         $issueId = IssueId::fromString($data->issueId());
         $customerId = CustomerId::fromString($data->customerId());
@@ -26,6 +26,6 @@ class CloseIssueHandler
         if (! $issue->reporterId()->equals($customerId)) {
             throw IssueNotClosable::becauseOnlyTheReportingUserIsAllowedTo($issueId, $customerId);
         }
-        $issue->close();
+        $issue->withdraw();
     }
 }

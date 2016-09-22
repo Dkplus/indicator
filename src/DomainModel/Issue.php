@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Dkplus\Indicator\DomainModel;
 
 use DateTimeImmutable;
-use Dkplus\Indicator\DomainModel\Event\IssueWasClosed;
+use Dkplus\Indicator\DomainModel\Event\IssueWasWithdrawn;
 use Dkplus\Indicator\DomainModel\Event\IssueWasExported;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImplemented;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImported;
@@ -122,9 +122,9 @@ class Issue extends AggregateRoot
         }
         if (! $this->state->equals($state)) {
             if ($state->equals(IssueState::implemented())) {
-                $this->recordThat(IssueWasImplemented::bySystem($this->id));
+                $this->recordThat(IssueWasImplemented::bySystem($this->id, $this->externalServiceId));
             } elseif ($state->equals(IssueState::rejected())) {
-                $this->recordThat(IssueWasRejected::bySystem($this->id));
+                $this->recordThat(IssueWasRejected::bySystem($this->id, $this->externalServiceId));
             }
         }
     }
@@ -136,7 +136,7 @@ class Issue extends AggregateRoot
         $this->text = $event->text();
         $this->reporterId = CustomerId::fromString($event->reporterId());
         $this->type = IssueType::fromString($event->type());
-        $this->state = IssueState::opened();
+        $this->state = IssueState::reported();
     }
 
     protected function whenIssueWasImported(IssueWasImported $event)
@@ -174,16 +174,16 @@ class Issue extends AggregateRoot
         return $this->reporterId;
     }
 
-    public function close()
+    public function withdraw()
     {
         if ($this->reporterId && $this->state->isOpen()) {
-            $this->recordThat(IssueWasClosed::byUser($this->id, $this->reporterId));
+            $this->recordThat(IssueWasWithdrawn::byUser($this->id, $this->reporterId, $this->externalServiceId));
         }
     }
 
-    protected function whenIssueWasClosed()
+    protected function whenIssueWasWithdrawn()
     {
-        $this->state = IssueState::closed();
+        $this->state = IssueState::withdrawn();
     }
 
     protected function whenIssueWasImplemented()

@@ -9,9 +9,9 @@ class IssueState
     /** @var string */
     private $state;
 
-    public static function opened(): self
+    public static function reported(): self
     {
-        return new IssueState('open');
+        return new IssueState('reported');
     }
 
     public static function implemented(): self
@@ -24,9 +24,9 @@ class IssueState
         return new IssueState('rejected');
     }
 
-    public static function closed(): self
+    public static function withdrawn(): self
     {
-        return new IssueState('closed');
+        return new IssueState('withdrawn');
     }
 
     public static function fromString($state): self
@@ -36,13 +36,13 @@ class IssueState
 
     private function __construct(string $state)
     {
-        Assertion::inArray($state, ['open', 'implemented', 'rejected', 'closed']);
+        Assertion::inArray($state, ['reported', 'implemented', 'rejected', 'withdrawn']);
         $this->state = $state;
     }
 
     public function isOpen(): bool
     {
-        return $this->state === 'open';
+        return $this->state === 'reported';
     }
 
     public function equals(self $anotherState): bool

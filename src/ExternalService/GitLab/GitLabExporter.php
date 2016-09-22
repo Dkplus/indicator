@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Dkplus\Indicator\ExternalService\GitLab;
 
-use Dkplus\Indicator\DomainModel\Event\IssueWasClosed;
+use Dkplus\Indicator\DomainModel\Event\IssueWasWithdrawn;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImplemented;
 use Dkplus\Indicator\DomainModel\Event\IssueWasImported;
 use Dkplus\Indicator\DomainModel\Event\IssueWasRejected;
@@ -46,7 +46,7 @@ class GitLabExporter
         );
     }
 
-    public function onIssueWasClosed(IssueWasClosed $event)
+    public function onIssueWasClosed(IssueWasWithdrawn $event)
     {
         if (! $event->externalServiceId()) {
             // it may happen that an issue is reported and closed

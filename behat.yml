@@ -1,7 +1,12 @@
 default:
     suites:
-        reporter:
+        customer:
             contexts:
                 - feature\Dkplus\Indicator\CustomerContext
             filters:
                 role: customer
+        supporter:
+            contexts:
+                - feature\Dkplus\Indicator\SupporterContext
+            filters:
+                role: supporter

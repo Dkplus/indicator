@@ -19,7 +19,7 @@ class RecoverIssueBuilder extends Builder
             'issueId' => Uuid::uuid4(),
             'title' => $faker->sentence,
             'text' => $faker->text,
-            'state' => 'open',
+            'state' => 'reported',
             'type' => 'bug',
             'issueNumber' => (string) $faker->randomDigit,
             'externalServiceId' => (string) $faker->randomDigit,

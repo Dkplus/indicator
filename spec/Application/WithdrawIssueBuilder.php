@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace spec\Dkplus\Indicator\Application;
 
-use Dkplus\Indicator\Application\CloseIssue;
+use Dkplus\Indicator\Application\WithdrawIssue;
 use Ramsey\Uuid\Uuid;
 use spec\Dkplus\Indicator\Builder;
 
 /**
- * @method CloseIssue build()
+ * @method WithdrawIssue build()
  */
-class CloseIssueBuilder extends Builder
+class WithdrawIssueBuilder extends Builder
 {
-    public static function aCloseIssueCommand(): self
+    public static function aWithdrawnIssueCommand(): self
     {
         return new self(['issueId' => Uuid::uuid4(), 'customerId' => Uuid::uuid4()->toString()], 'withId');
     }

@@ -6,9 +6,9 @@ use Dkplus\Indicator\DomainModel\CustomerId;
 use Dkplus\Indicator\DomainModel\IssueId;
 use Prooph\EventSourcing\AggregateChanged;
 
-class IssueWasClosed extends AggregateChanged
+class IssueWasWithdrawn extends AggregateChanged
 {
-    public static function byUser(IssueId $id, CustomerId $customerId, string $externalServiceId)
+    public static function byUser(IssueId $id, CustomerId $customerId, string $externalServiceId = null)
     {
         return self::occur(
             (string) $id,
