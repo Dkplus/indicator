@@ -136,10 +136,10 @@ class GitLabImporter
     }
 
     /**
-     * @param Issue $issue
+     * @param Issue|stdClass $issue
      * @return string
      */
-    private function stateOfIssue($issue): string
+    private function stateOfIssue(stdClass $issue): string
     {
         if ($issue->state !== 'closed') {
             return 'open';
@@ -154,10 +154,10 @@ class GitLabImporter
     }
 
     /**
-     * @param Issue $issue
+     * @param Issue|stdClass $issue
      * @return string
      */
-    private function typeOfIssue($issue): string
+    private function typeOfIssue(stdClass $issue): string
     {
         return in_array('bug', $issue->labels)
             ? 'bug'
