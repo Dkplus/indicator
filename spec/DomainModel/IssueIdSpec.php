@@ -16,12 +16,12 @@ class IssueIdSpec extends ObjectBehavior
         $this->beConstructedThrough('generate');
     }
 
-    function it_is_initializable()
+    function it is initializable()
     {
         $this->shouldHaveType(IssueId::class);
     }
 
-    function it_can_be_generated_from_string()
+    function it can be generated from string()
     {
         $idAsString = Uuid::uuid4()->toString();
         $this->beConstructedThrough('fromString', [$idAsString]);

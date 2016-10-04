@@ -16,19 +16,19 @@ class CustomerIdSpec extends ObjectBehavior
         $this->beConstructedThrough('generate');
     }
 
-    function it_is_initializable()
+    function it is initializable()
     {
         $this->shouldHaveType(CustomerId::class);
     }
 
-    function it_can_be_generated_from_string()
+    function it can be generated from string()
     {
         $idAsString = Uuid::uuid4()->toString();
         $this->beConstructedThrough('fromString', [$idAsString]);
         $this->shouldBeLike($idAsString);
     }
 
-    function it_is_comparable_to_other_reporter_ids()
+    function it is comparable to other reporter ids()
     {
         $idAsString = Uuid::uuid4()->toString();
         $this->beConstructedThrough('fromString', [$idAsString]);
@@ -37,7 +37,7 @@ class CustomerIdSpec extends ObjectBehavior
         $this->equals(CustomerId::generate())->shouldBe(false);
     }
 
-    function it_is_comparable_to_reporter_ids_as_string()
+    function it is comparable to reporter ids as string()
     {
         $idAsString = Uuid::uuid4()->toString();
         $this->beConstructedThrough('fromString', [$idAsString]);

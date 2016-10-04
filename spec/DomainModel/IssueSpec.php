@@ -34,12 +34,12 @@ class IssueSpec extends ObjectBehavior
         );
     }
 
-    function it_is_reported()
+    function it is reported()
     {
         $this->shouldHaveRecorded(IssueWasReported::class);
     }
 
-    function it_can_be_imported_from_an_external_service()
+    function it can be imported from an external service()
     {
         $this->beConstructedThrough(
             'importFromAnExternalService',
@@ -48,12 +48,12 @@ class IssueSpec extends ObjectBehavior
         $this->shouldHaveRecorded(IssueWasImported::class);
     }
 
-    function it_can_have_a_reporter()
+    function it can have a reporter()
     {
         $this->reporterId()->shouldHaveType(CustomerId::class);
     }
 
-    function it_has_no_reporter_when_imported_from_an_external_service()
+    function it has no reporter when imported from an external service()
     {
         $this->beConstructedThrough(
             'importFromAnExternalService',
@@ -62,14 +62,14 @@ class IssueSpec extends ObjectBehavior
         $this->reporterId()->shouldBeNull();
     }
 
-    function it_is_exported_once_to_an_external_service()
+    function it is exported once to an external service()
     {
         $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement());
         $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::reported(), IssueType::enhancement());
         $this->shouldHaveRecordedOnce(IssueWasExported::class);
     }
 
-    function it_cannot_be_exported_to_an_external_service_if_its_imported_therefrom()
+    function it cannot be exported to an external service if its imported therefrom()
     {
         $this->beConstructedThrough(
             'importFromAnExternalService',
@@ -79,7 +79,7 @@ class IssueSpec extends ObjectBehavior
         $this->shouldNotHaveRecorded(IssueWasExported::class);
     }
 
-    function it_can_be_recovered()
+    function it can be recovered()
     {
         $this->beConstructedThrough('recoverFromExternalService', [
             IssueId::generate(),
@@ -96,7 +96,7 @@ class IssueSpec extends ObjectBehavior
         $this->reporterId()->shouldHaveType(CustomerId::class);
     }
 
-    function it_cannot_be_exported_to_an_external_service_if_its_recovered_therefrom()
+    function it cannot be exported to an external service if its recovered therefrom()
     {
         $this->beConstructedThrough('recoverFromExternalService', [
             IssueId::generate(),
@@ -113,7 +113,7 @@ class IssueSpec extends ObjectBehavior
         $this->shouldNotHaveRecorded(IssueWasExported::class);
     }
 
-    function it_can_be_recovered_without_a_reporter()
+    function it can be recovered without a reporter()
     {
         $this->beConstructedThrough('recoverFromExternalService', [
             IssueId::generate(),
@@ -129,28 +129,28 @@ class IssueSpec extends ObjectBehavior
         $this->reporterId()->shouldBeNull();
     }
 
-    function it_can_be_rejected_by_an_import()
+    function it can be rejected by an import()
     {
         $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::rejected(), IssueType::enhancement());
         $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::rejected(), IssueType::enhancement());
         $this->shouldHaveRecordedOnce(IssueWasRejected::class);
     }
 
-    function it_can_be_implemented_by_an_import()
+    function it can be implemented by an import()
     {
         $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::implemented(), IssueType::enhancement());
         $this->importFromExternalService('Title', 'Text', '4', '6', IssueState::implemented(), IssueType::enhancement());
         $this->shouldHaveRecordedOnce(IssueWasImplemented::class);
     }
 
-    function it_can_be_withdrawn_if_it_has_been_reported()
+    function it can be withdrawn if it has been reported()
     {
         $this->withdraw();
         $this->withdraw();
         $this->shouldHaveRecordedOnce(IssueWasWithdrawn::class);
     }
 
-    function it_cannot_by_closed_if_it_has_been_imported()
+    function it cannot by closed if it has been imported()
     {
         $this->beConstructedThrough(
             'importFromAnExternalService',

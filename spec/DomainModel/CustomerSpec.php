@@ -18,13 +18,13 @@ class CustomerSpec extends ObjectBehavior
         $this->beConstructedThrough('register', [CustomerId::generate(), 'Tom']);
     }
 
-    function it_is_registered()
+    function it is registered()
     {
         $this->shouldHaveType(Customer::class);
         $this->shouldHaveRecorded(CustomerWasRegistered::class);
     }
 
-    function it_has_an_id()
+    function it has an id()
     {
         $this->id()->shouldHaveType(CustomerId::class);
     }
