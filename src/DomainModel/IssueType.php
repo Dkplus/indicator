@@ -19,6 +19,11 @@ class IssueType
         return new self('bug');
     }
 
+    public static function question(): self
+    {
+        return new self('question');
+    }
+
     public static function fromString(string $type)
     {
         return new self($type);
@@ -26,7 +31,7 @@ class IssueType
 
     private function __construct(string $type)
     {
-        Assertion::inArray($type, ['enhancement', 'bug']);
+        Assertion::inArray($type, ['enhancement', 'bug', 'question']);
         $this->type = $type;
     }
 

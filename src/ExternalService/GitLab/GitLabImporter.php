@@ -159,8 +159,9 @@ class GitLabImporter
      */
     private function typeOfIssue(stdClass $issue): string
     {
-        return in_array('bug', $issue->labels)
-            ? 'bug'
-            : 'enhancement';
+        if (in_array('bug', $issue->labels)) {
+            return 'bug';
+        }
+        return in_array('question', $issue->labels) ? 'question' : 'enhancement';
     }
 }
