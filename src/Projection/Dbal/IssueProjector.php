@@ -90,7 +90,7 @@ class IssueProjector
         ]);
     }
 
-    public function onIssueWasClosed(IssueWasWithdrawn $data)
+    public function onIssueWasWithdrawn(IssueWasWithdrawn $data)
     {
         $this->connection->update(IssueTable::TABLE_NAME, [
             'state' => 'closed',
