@@ -142,13 +142,13 @@ class GitLabImporter
     private function stateOfIssue(stdClass $issue): string
     {
         if ($issue->state !== 'closed') {
-            return 'open';
+            return 'reported';
         }
         if (in_array('won\'t fix', $issue->labels)) {
             return 'rejected';
         }
         if (in_array('closed', $issue->labels)) {
-            return 'closed';
+            return 'withdrawn';
         }
         return 'implemented';
     }
